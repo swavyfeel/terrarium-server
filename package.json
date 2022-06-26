@@ -1,0 +1,29 @@
+{
+  "name": "terrarium-server",
+  "version": "1.0.0",
+  "description": "terrarium server",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mongodb": "^4.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swavyfeel/terrarium-server.git"
+  },
+  "keywords": [
+    "terrarium",
+    "server"
+  ],
+  "author": "lucasolip",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swavyfeel/terrarium-server/issues"
+  },
+  "homepage": "https://github.com/swavyfeel/terrarium-server#readme"
+}

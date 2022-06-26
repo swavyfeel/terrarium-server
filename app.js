@@ -3,8 +3,8 @@ const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
-const CONNECTION_URL = process.env.MONGODB_URI || "mongodb-url";
-const DATABASE_NAME = "db-name";
+const CONNECTION_URL = process.env.MONGODB_URI || "mongodb+srv://Lucas:8LFvWY65jBTqzGBw@cluster0.2bd29.mongodb.net/?retryWrites=true&w=majority";
+const DATABASE_NAME = "Cluster0";
 
 var app = Express();
 
@@ -18,12 +18,12 @@ var database, collection;
 app.listen(port, () => {
 	   
     MongoClient.connect(CONNECTION_URL,  { useNewUrlParser: true }, (error, client) => {
-        if(error) {
+        if (error) {
             throw error;
         }
         database = client.db(DATABASE_NAME);
-        require('./app/routes')(app, database);
-        console.log("Connected to `" + DATABASE_NAME + "`!");
+        require('./routes/node_routes.js')(app, database);
+        console.log("Connected to \"" + DATABASE_NAME + "\"!");
     });
 
 });
