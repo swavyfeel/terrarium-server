@@ -2,68 +2,68 @@
 
 var ObjectID = require('mongodb').ObjectId;
 
-module.exports = function(app, db) {
+module.exports = function (app, db) {
 
-	app.put('/leaderboard/:id', (req, res) => {
-	    const id = req.params.id;
-	    const details = { '_id': new ObjectId(id) };
-	    const newscore = { name: req.body.name, score: req.body.score };
-	    db.collection('scores').update(details, newscore, (err, result) => {
-	      if (err) {
-	          res.send({'error':'An error has occurred'});
-	      } else {
-	          res.send(newscore);
-	      } 
-	    });
- 	});
-
-
-	app.get('/leaderboard', (req, res) => {
-	    db.collection('scores').find({}).toArray((err, result) => {
-	      if (err) {
-	        res.send({'error':'An error has occurred'});
-	      } else {
-	        res.send(result);
-	      }
-	    });
- 	 });
-
-	app.delete('/leaderboard/:id', (req, res) => {
-	    const id = req.params.id;
-	    const details = { '_id': new ObjectId(id) };
-	    db.collection('scores').remove(details, (err, item) => {
-	      if (err) {
-	        res.send({'error':'An error has occurred'});
-	      } else {
-	        res.send('score ' + id + ' deleted!');
-	      } 
-	    });
-  	});
+	app.put('/users/:name', (req, res) => {
+		const name = req.params.name;
+		const details = { '_id': name };
+		const data = { name: req.body.username, best_pet_birth_date: req.body.score };
+		db.collection('users').update(details, data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(data);
+			}
+		});
+	});
 
 
-	
-	app.get('/leaderboard/:id', (req, res) => {
-	    const id = req.params.id;
-    	const details = { '_id': new ObjectId(id) };
-	    
-	    db.collection('scores').findOne(details, (err, item) => {
-	      if (err) {
-	        res.send({'error':'An error has occurred'});
-	      } else {
-	        res.send(item);
-	      }
-	    });
- 	 });
-	
+	app.get('/users', (req, res) => {
+		db.collection('users').find({}).toArray((err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result);
+			}
+		});
+	});
 
-	app.post('/leaderboard', (req, res) => {
-    const score = { name: req.body.name, score: req.body.score };
-    db.collection('scores').insertOne(score, (err, result) => {
-      if (err) { 
-        res.send({ 'error': 'An error has occurred' }); 
-      } else {
-		res.send("Processed request");
-      }
-    });
-  });
+	app.delete('/users/:name', (req, res) => {
+		const name = req.params.name;
+		const details = { '_id': name };
+		db.collection('users').remove(details, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send('score ' + name + ' deleted!');
+			}
+		});
+	});
+
+
+
+	app.get('/users/:name', (req, res) => {
+		const name = req.params.name;
+		const details = { '_id': name };
+
+		db.collection('users').findOne(details, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(item);
+			}
+		});
+	});
+
+
+	app.post('/users', (req, res) => {
+		const data = { _id: req.body.username, best_pet_birth_date: req.body.score };
+		db.collection('users').insertOne(data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+	});
 };
