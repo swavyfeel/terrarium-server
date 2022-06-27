@@ -1,7 +1,7 @@
 const Express = require("express");
 const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectID;
+const ObjectId = require("mongodb").ObjectId;
 
 const CONNECTION_URL = process.env.MONGODB_URI;
 const DATABASE_NAME = "Cluster0";
