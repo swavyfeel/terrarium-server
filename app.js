@@ -3,7 +3,7 @@ const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
-const CONNECTION_URL = process.env.MONGODB_URI || "mongodb+srv://Lucas:8LFvWY65jBTqzGBw@cluster0.2bd29.mongodb.net/?retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.MONGODB_URI;
 const DATABASE_NAME = "Cluster0";
 
 var app = Express();
