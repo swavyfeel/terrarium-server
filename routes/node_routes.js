@@ -62,7 +62,7 @@ module.exports = function(app, db) {
       if (err) { 
         res.send({ 'error': 'An error has occurred' }); 
       } else {
-		console.log("Ci");
+		res.send("Processed request");
       }
     });
   });
