@@ -57,7 +57,7 @@ module.exports = function (app, db) {
 
 
 	app.post('/users', (req, res) => {
-		const data = { _id: req.body.username, best_pet_birth_date: req.body.score };
+		const data = { _id: new ObjectId(req.body.username), best_pet_birth_date: req.body.score };
 		db.collection('users').insertOne(data, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
