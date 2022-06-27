@@ -6,8 +6,8 @@ module.exports = function (app, db) {
 
 	app.put('/users/:name', (req, res) => {
 		const name = req.params.name;
-		const details = { '_id': name };
-		const data = { name: req.body.username, best_pet_birth_date: req.body.score };
+		const details = { 'username': name };
+		const data = { username: req.body.username, best_pet_birth_date: req.body.score };
 		db.collection('users').update(details, data, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
@@ -30,7 +30,7 @@ module.exports = function (app, db) {
 
 	app.delete('/users/:name', (req, res) => {
 		const name = req.params.name;
-		const details = { '_id': name };
+		const details = { 'username': name };
 		db.collection('users').remove(details, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
@@ -44,7 +44,7 @@ module.exports = function (app, db) {
 
 	app.get('/users/:name', (req, res) => {
 		const name = req.params.name;
-		const details = { '_id': name };
+		const details = { 'username': name };
 
 		db.collection('users').findOne(details, (err, item) => {
 			if (err) {
@@ -57,7 +57,7 @@ module.exports = function (app, db) {
 
 
 	app.post('/users', (req, res) => {
-		const data = { '_id': req.body.username, best_pet_birth_date: req.body.score };
+		const data = { 'username': req.body.username, best_pet_birth_date: req.body.score };
 		db.collection('users').insertOne(data, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
