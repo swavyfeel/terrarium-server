@@ -57,8 +57,20 @@ module.exports = function (app, db) {
 
 
 	app.post('/users', (req, res) => {
-		const data = { 'username': req.body.username, best_pet_birth_date: req.body.score };
+		const data = { 'username': req.body.username, best_pet_birth_date: req.body.bestBorn, best_pet_death_date: req.body.bestDied };
 		db.collection('users').insertOne(data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+	});
+
+	app.post('/users/:username', (req, res) => {
+		const data = { best_pet_birth_date: req.body.bestBorn, best_pet_death_date: req.body.bestDied };
+		const query = { 'username': req.params.username };
+		db.collection('users').updateOne(query, data, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
