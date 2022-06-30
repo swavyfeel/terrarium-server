@@ -68,7 +68,7 @@ module.exports = function (app, db) {
 	});
 
 	app.post('/users/:username', (req, res) => {
-		const data = { best_pet_birth_date: req.body.bestBorn, best_pet_death_date: req.body.bestDied };
+		const data = { $set: { best_pet_birth_date: req.body.bestBorn, best_pet_death_date: req.body.bestDied } };
 		const query = { username: req.params.username };
 		console.log(query);
 		console.log(data);
