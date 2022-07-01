@@ -43,7 +43,7 @@ module.exports = function (app, db) {
 
 
 	app.get('/users/:username', (req, res) => {
-		const details = { 'username': req.params.username };
+		const details = { 'username': { $regex: req.params.username, $options: 'i' } };
 
 		db.collection('users').find(details).toArray((err, result) => {
 			if (err) {
