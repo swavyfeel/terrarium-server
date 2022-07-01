@@ -42,15 +42,14 @@ module.exports = function (app, db) {
 
 
 
-	app.get('/users/:name', (req, res) => {
-		const name = req.params.name;
-		const details = { 'username': name };
+	app.get('/users/:username', (req, res) => {
+		const details = { 'username': req.params.username };
 
-		db.collection('users').findOne(details, (err, item) => {
+		db.collection('users').find(details).toArray((err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
-				res.send(item);
+				res.send(result);
 			}
 		});
 	});
