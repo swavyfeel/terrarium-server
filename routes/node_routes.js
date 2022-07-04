@@ -17,6 +17,46 @@ module.exports = function (app, db) {
 		});
 	});
 
+	app.put('/users/request/:username', (req, res) => {
+		const data = { from: req.body.username, to: req.params.username };
+		console.log(data);
+		db.collection('friend_requests').insertOne(data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+	});
+
+	app.put('/users/accept/:username', (req, res) => {
+		const from = req.body.username;
+		const to = req.params.username;
+		const data = { from: from, to: to };
+		console.log(data);
+		db.collection('friend_requests').deleteOne(data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+		db.collection('users').updateOne({ username: from }, { $push: { friends: to } }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+		db.collection('users').updateOne({ username: to }, { $push: { friends: from } }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+	});
+
 
 	app.get('/users', (req, res) => {
 		db.collection('users').find({}).toArray((err, result) => {
@@ -28,14 +68,33 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.delete('/users/:name', (req, res) => {
-		const name = req.params.name;
-		const details = { 'username': name };
+	app.get('/users/request/:username', (req, res) => {
+		db.collection('friend_requests').findOne({ username: req.params.username }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result);
+			}
+		});
+	});
+
+	app.get('/users/friends/:username', (req, res) => {
+		db.collection('users').findOne({ username: req.params.username }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result);
+			}
+		});
+	});
+
+	app.delete('/users/:username', (req, res) => {
+		const details = { 'username': req.params.username };
 		db.collection('users').remove(details, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
-				res.send('score ' + name + ' deleted!');
+				res.send(result.acknowledged);
 			}
 		});
 	});
