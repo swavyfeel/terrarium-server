@@ -17,7 +17,7 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.put('/users/request/:username', (req, res) => {
+	app.post('/users/request/:username', (req, res) => {
 		const data = { from: req.body.username, to: req.params.username };
 		console.log(data);
 		db.collection('friend_requests').insertOne(data, (err, result) => {
@@ -29,7 +29,7 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.put('/users/accept/:username', (req, res) => {
+	app.post('/users/accept/:username', (req, res) => {
 		const from = req.body.username;
 		const to = req.params.username;
 		const data = { from: from, to: to };
@@ -69,7 +69,7 @@ module.exports = function (app, db) {
 	});
 
 	app.get('/users/request/:username', (req, res) => {
-		db.collection('friend_requests').findOne({ username: req.params.username }, (err, result) => {
+		db.collection('friend_requests').find({ to: req.params.username }).toArray((err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
