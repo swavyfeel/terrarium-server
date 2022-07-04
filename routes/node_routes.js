@@ -32,9 +32,15 @@ module.exports = function (app, db) {
 	app.post('/users/accept/:username', (req, res) => {
 		const from = req.body.username;
 		const to = req.params.username;
-		const data = { from: from, to: to };
 		console.log(data);
-		db.collection('friend_requests').deleteOne(data, (err, result) => {
+		db.collection('friend_requests').deleteOne({ from: from, to: to }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+		db.collection('friend_requests').deleteOne({ from: to, to: from }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
