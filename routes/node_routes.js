@@ -29,6 +29,18 @@ module.exports = function (app, db) {
 		});
 	});
 
+	app.post('/users/send/:username', (req, res) => {
+		const data = { from: req.body.username, to: req.params.username, gift_index: req.body.gift };
+		console.log(data);
+		db.collection('gifts').insertOne(data, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result.acknowledged);
+			}
+		});
+	});
+
 	app.post('/users/accept/:username', (req, res) => {
 		const from = req.body.username;
 		const to = req.params.username;
