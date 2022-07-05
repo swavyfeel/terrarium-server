@@ -2,12 +2,14 @@ const Express = require("express");
 const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
+const cors = require("cors");
 
 const CONNECTION_URL = process.env.MONGODB_URI;
 const DATABASE_NAME = "Cluster0";
 
 var app = Express();
 
+app.use(cors());
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 
@@ -16,8 +18,8 @@ const port = process.env.PORT || 5000;
 var database, collection;
 
 app.listen(port, () => {
-	   
-    MongoClient.connect(CONNECTION_URL,  { useNewUrlParser: true }, (error, client) => {
+
+    MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
         if (error) {
             throw error;
         }
