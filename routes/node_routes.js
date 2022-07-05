@@ -44,7 +44,6 @@ module.exports = function (app, db) {
 	app.post('/users/accept/:username', (req, res) => {
 		const from = req.body.username;
 		const to = req.params.username;
-		console.log(data);
 		db.collection('friend_requests').deleteOne({ from: from, to: to }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
