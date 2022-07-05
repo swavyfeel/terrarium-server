@@ -95,12 +95,27 @@ module.exports = function (app, db) {
 	});
 
 	app.delete('/users/:username', (req, res) => {
-		const details = { 'username': req.params.username };
-		db.collection('users').remove(details, (err, item) => {
+		const username = req.params.username;
+		db.collection('users').remove({ 'username': username }, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			}
+		});
+		db.collection('users').update({}, { $pull: { friends: username } }, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			}
+		})
+		db.collection('friend_requests').remove({ 'from': username }, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			}
+		});
+		db.collection('friend_requests').remove({ 'to': username }, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
-				res.send(result.acknowledged);
+				res.send(item.acknowledged);
 			}
 		});
 	});
