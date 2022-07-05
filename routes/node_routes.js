@@ -29,7 +29,7 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.post('/users/send/:username', (req, res) => {
+	app.post('/users/gifts/:username', (req, res) => {
 		const data = { from: req.body.username, to: req.params.username, gift_index: req.body.gift };
 		console.log(data);
 		db.collection('gifts').insertOne(data, (err, result) => {
@@ -92,6 +92,21 @@ module.exports = function (app, db) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
 				res.send(result);
+			}
+		});
+	});
+
+	app.get('/users/gifts/:username', (req, res) => {
+		db.collection('gifts').find({ to: req.params.username }).toArray((err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
+			} else {
+				res.send(result);
+			}
+		});
+		db.collection('gifts').remove({ to: req.params.username }, (err, result) => {
+			if (err) {
+				res.send({ 'error': 'An error has occurred' });
 			}
 		});
 	});
