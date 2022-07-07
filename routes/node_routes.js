@@ -177,7 +177,7 @@ module.exports = function (app, db) {
 		const query = { username: req.params.username };
 		console.log(query);
 		console.log(data);
-		db.collection('users').updateOne(query, data, (err, result) => {
+		db.collection('users').updateOne(query, data, { upsert: true }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
