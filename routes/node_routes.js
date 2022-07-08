@@ -127,7 +127,7 @@ module.exports = function (app, db) {
 				res.send({ 'error': 'An error has occurred' });
 			}
 		});
-		db.collection('users').update({}, { $pull: { friends: username } }, (err, item) => {
+		db.collection('users').updateMany({}, { $pull: { friends: username } }, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			}
