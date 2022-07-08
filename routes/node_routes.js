@@ -47,22 +47,16 @@ module.exports = function (app, db) {
 		db.collection('friend_requests').deleteOne({ from: from, to: to }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
-			} else {
-				res.send(result.acknowledged);
 			}
 		});
 		db.collection('friend_requests').deleteOne({ from: to, to: from }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
-			} else {
-				res.send(result.acknowledged);
 			}
 		});
 		db.collection('users').updateOne({ username: from }, { $push: { friends: to } }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
-			} else {
-				res.send(result.acknowledged);
 			}
 		});
 		db.collection('users').updateOne({ username: to }, { $push: { friends: from } }, (err, result) => {
