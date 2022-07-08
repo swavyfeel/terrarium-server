@@ -103,7 +103,7 @@ module.exports = function (app, db) {
 				res.send(result);
 			}
 		});
-		db.collection('gifts').remove({ to: req.params.username }, (err, result) => {
+		db.collection('gifts').deleteMany({ to: req.params.username }, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			}
@@ -122,7 +122,7 @@ module.exports = function (app, db) {
 
 	app.delete('/users/:username', (req, res) => {
 		const username = req.params.username;
-		db.collection('users').remove({ 'username': username }, (err, item) => {
+		db.collection('users').deleteMany({ 'username': username }, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			}
@@ -132,12 +132,12 @@ module.exports = function (app, db) {
 				res.send({ 'error': 'An error has occurred' });
 			}
 		})
-		db.collection('friend_requests').remove({ 'from': username }, (err, item) => {
+		db.collection('friend_requests').deleteMany({ 'from': username }, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			}
 		});
-		db.collection('friend_requests').remove({ 'to': username }, (err, item) => {
+		db.collection('friend_requests').deleteMany({ 'to': username }, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occurred' });
 			} else {
